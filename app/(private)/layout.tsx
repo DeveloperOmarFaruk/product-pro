@@ -2,33 +2,50 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import DashboardNavbar from "@/components/navbar/DashboardNavbar";
-// import DashboardSkeleton from "@/components/skeletons/DashboardSkeleton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SpinnerLoader from "@/components/skeletons/SpinnerLoader";
 import { motion as Motion } from "framer-motion";
-import DashboardSidebar from "@/components/sidebar/DashboardSidebar";
+import dynamic from "next/dynamic";
+
+const DashboardSidebar = dynamic(
+  () => import("@/components/sidebar/DashboardSidebar"),
+  { ssr: false }
+);
+
+const DashboardNavbar = dynamic(
+  () => import("@/components/navbar/DashboardNavbar"),
+  { ssr: false }
+);
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  /* ---------------------------------------------
+     Hooks MUST always run
+  --------------------------------------------- */
+  const router = useRouter();
+  const pathname = usePathname();
+  const { isAuthenticated, isAuthLoading } = useAuth();
+  const isNotFoundRoute = pathname === "/not-found";
+
+  /* ---------------------------------------------
+     ✅ Lazy state initialization (NO effects)
+  --------------------------------------------- */
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return localStorage.getItem("darkMode") === "true";
+  });
+
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 1024;
+  });
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
 
-  // ⚡ Lazy init dark mode
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("darkMode") === "true";
-    }
-    return false;
-  });
-
-  const [mounted, setMounted] = useState(false);
-
-  const { isAuthenticated, isAuthLoading } = useAuth();
-  const router = useRouter();
-
   //  handle auth & skeleton
   useEffect(() => {
+    if (isNotFoundRoute) return;
+
     if (!isAuthLoading && !isAuthenticated) {
       router.replace("/login");
     }
@@ -36,40 +53,35 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
       const timer = setTimeout(() => setShowSkeleton(false), 1200);
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated, isAuthLoading, router]);
+  }, [isAuthenticated, isAuthLoading, router, isNotFoundRoute]);
 
   //  mark mounted in next tick to avoid linter warning
   useEffect(() => {
-    const handleMount = () => setMounted(true);
-    // schedule after render
-    requestAnimationFrame(handleMount);
-  }, []);
+    if (isNotFoundRoute) return;
+    if (document) {
+      document.documentElement.classList.toggle("dark", isDarkMode);
+      localStorage.setItem("darkMode", String(isDarkMode));
+    }
+  }, [isDarkMode, isNotFoundRoute]);
 
   //  sync dark mode with document & localStorage
   useEffect(() => {
-    if (!mounted) return; // avoid SSR mismatch
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-    localStorage.setItem("darkMode", isDarkMode.toString());
-  }, [isDarkMode, mounted]);
+    if (isNotFoundRoute) return;
 
-  useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(true); // mobile → collapsed
-      } else {
-        setIsCollapsed(false); // desktop → expanded
-      }
+      setIsCollapsed(window.innerWidth < 1024);
     };
 
-    handleResize(); // run on mount
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isNotFoundRoute]);
+
+  /* ---------------------------------------------
+     Rendering
+  --------------------------------------------- */
+  if (isNotFoundRoute) {
+    return <>{children}</>;
+  }
 
   if (isAuthLoading || showSkeleton || !isAuthenticated) {
     return (
