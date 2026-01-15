@@ -23,7 +23,7 @@
 ![image](https://github.com/user-attachments/assets/29b95817-b496-46b3-9717-d7d17cde74a1)
 ![image](https://github.com/user-attachments/assets/0b39c086-2421-4209-a1b4-2cf59ac4bc4e)
 #
-## Folder-wise Feature Mapping
+## Project Key Implementation
 * Route protection, login simulation, state tracking
 * Charts, stats cards, recent products
 * Search, filter, pagination, modals, bulk actions
