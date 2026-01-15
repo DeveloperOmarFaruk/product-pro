@@ -102,37 +102,41 @@
 #
 ### `Create Product Modal (Admin).`
 #
-
-![image]()
+![image](https://github.com/user-attachments/assets/1fe2935b-f901-45f7-96bf-86307aacdbac)
 #
-![image]()
+![image](https://github.com/user-attachments/assets/a8b96ced-f38d-460a-886b-b53b67e8bb08)
 
 #
 ### `Edit Product Modal (Admin).`
 #
-![image]()
+![image](https://github.com/user-attachments/assets/1d826140-668a-44d4-ad7e-e0a2c3c7f12c)
 #
-![image]()
+![image](https://github.com/user-attachments/assets/b32278b1-8ba3-4bd1-854c-26d097356a03)
 
 #
 
 ### `View Product Modal (Admin).`
 #
-![image]()
+![image](https://github.com/user-attachments/assets/091ab4c5-c2d2-47bf-8bc9-624f43c1a87f)
 #
-![image]()
+![image](https://github.com/user-attachments/assets/055403b0-7304-41db-ba2f-6005b8718d9f)
+
+
 
 #
 ### `Delete Confirm Modal (Admin).`
 #
-![image]()
+![image](https://github.com/user-attachments/assets/12a8fb40-6f14-4383-bdef-8cb0cc2c2934)
 #
-![image]()
+![image](https://github.com/user-attachments/assets/716cf65d-afb7-49aa-aa64-1b4a6396310d)
+
+
 
 #
-### `Error 404.`
+### `Skeleton Loaders.`
 #
-![image]()
-![image]()
+![image](https://github.com/user-attachments/assets/d1c5fe03-9983-4e60-998f-f9a801dbf465)
+![image](https://github.com/user-attachments/assets/f4ea8f34-5221-4c7e-82c8-304deb11cf77)
 #
+
 
