@@ -32,30 +32,40 @@ export default function Pagination({
   onPageChange,
   onItemsPerPageChange,
 }: PaginationProps) {
+  /* Calculate visible item range */
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
+  /* Generate page numbers with smart ellipsis handling */
   const getPageNumbers = () => {
-    const pages = [];
+    const pages: (number | string)[] = [];
     const showEllipsis = totalPages > 7;
 
+    // If total pages are small, show all
     if (!showEllipsis) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
+      // Near the beginning
       if (currentPage <= 4) {
         for (let i = 1; i <= 5; i++) pages.push(i);
         pages.push("...");
         pages.push(totalPages);
-      } else if (currentPage >= totalPages - 3) {
+      }
+      // Near the end
+      else if (currentPage >= totalPages - 3) {
         pages.push(1);
         pages.push("...");
         for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
-      } else {
+      }
+      // In the middle
+      else {
         pages.push(1);
         pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
         pages.push("...");
         pages.push(totalPages);
       }
@@ -66,7 +76,7 @@ export default function Pagination({
 
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-      {/* Items info */}
+      {/* ---------- Items info ---------- */}
       <div className="text-sm text-slate-500 dark:text-slate-400">
         Showing{" "}
         <span className="font-medium text-slate-900 dark:text-white">
@@ -83,19 +93,21 @@ export default function Pagination({
         products
       </div>
 
-      {/* Pagination controls */}
+      {/* ---------- Pagination controls ---------- */}
       <div className="flex items-center gap-2">
-        {/* Items per page */}
+        {/* Items-per-page selector */}
         <Select
           value={itemsPerPage.toString()}
           onValueChange={(v) => onItemsPerPageChange(parseInt(v))}
         >
           <SelectTrigger
-            className="w-20 h-9 bg-white dark:bg-slate-800 border-slate-200
-           dark:border-slate-700 cursor-pointer"
+            className="w-20 h-9 bg-white dark:bg-slate-800
+             border-slate-200 dark:border-slate-700 cursor-pointer"
           >
             <SelectValue />
           </SelectTrigger>
+
+          {/* Options */}
           <SelectContent>
             <SelectItem value="5">5</SelectItem>
             <SelectItem value="10">10</SelectItem>
@@ -105,7 +117,7 @@ export default function Pagination({
         </Select>
 
         <div className="flex items-center gap-1">
-          {/* First page */}
+          {/* Go to first page */}
           <Button
             variant="outline"
             size="icon"
@@ -116,7 +128,7 @@ export default function Pagination({
             <ChevronsLeft className="w-4 h-4" />
           </Button>
 
-          {/* Previous */}
+          {/* Previous page */}
           <Button
             variant="outline"
             size="icon"
@@ -131,8 +143,10 @@ export default function Pagination({
           {getPageNumbers().map((page, idx) => (
             <div key={idx}>
               {page === "..." ? (
+                /* Ellipsis separator */
                 <span className="px-2 text-slate-400">...</span>
               ) : (
+                /* Page button */
                 <Button
                   variant={currentPage === page ? "default" : "outline"}
                   size="icon"
@@ -149,7 +163,7 @@ export default function Pagination({
             </div>
           ))}
 
-          {/* Next */}
+          {/* Next page */}
           <Button
             variant="outline"
             size="icon"
@@ -160,7 +174,7 @@ export default function Pagination({
             <ChevronRight className="w-4 h-4" />
           </Button>
 
-          {/* Last page */}
+          {/* Go to last page */}
           <Button
             variant="outline"
             size="icon"

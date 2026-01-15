@@ -9,7 +9,7 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
   useUpdateProductMutation,
-} from "@/app/store/productsApi";
+} from "@/store/productsApi";
 import {
   Product,
   ProductCreateInput,
@@ -25,51 +25,56 @@ import DeleteConfirmModal from "@/components/product/DeleteConfirmModal";
 import BulkActions from "@/components/product/BulkActions";
 import ProductFilters from "@/components/product/ProductFilters";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/app/store";
+import { AppDispatch, RootState } from "@/store";
 import {
   setCategoryFilter,
   setSearchQuery,
   setStatusFilter,
-} from "@/app/store/slices/productFiltersSlice";
+} from "@/store/slices/productFiltersSlice";
 import { debounce } from "lodash";
 
 export default function Products() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>(); // Redux dispatch
 
-  // State for per-row loading
-  const [loadingIds, setLoadingIds] = useState<number[]>([]);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  // -------------------------
+  // Component State
+  // -------------------------
+  const [loadingIds, setLoadingIds] = useState<number[]>([]); // Track per-row loading for status updates
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Number of products per page
+  const [currentPage, setCurrentPage] = useState(1); // Current pagination page
+  const [selectedIds, setSelectedIds] = useState<number[]>([]); // Selected products for bulk actions
   const [modalMode, setModalMode] = useState<"create" | "view" | "edit">(
     "create"
-  );
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  ); // Modal mode
+  const [modalOpen, setModalOpen] = useState(false); // Product modal visibility
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // Product currently selected for modal
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null); // Product selected for deletion
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false); // Single delete modal
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false); // Bulk delete modal
 
-  // Query API
-  const { data, isLoading } = useGetProductsQuery();
+  // -------------------------
+  // API Queries and Mutations (RTK Query)
+  // -------------------------
+  const { data, isLoading } = useGetProductsQuery(); // Fetch all products
 
-  // Mutation API
   const [
     createProduct,
     { isLoading: createLoading, isError: createIsError, error: createError },
-  ] = useCreateProductMutation();
+  ] = useCreateProductMutation(); // Create product mutation
 
   const [
     updateProduct,
     { isLoading: updateLoading, isError: updateIsError, error: updateError },
-  ] = useUpdateProductMutation();
+  ] = useUpdateProductMutation(); // Update product mutation
 
   const [
     deleteProduct,
     { isLoading: deleteLoading, isError: deleteIsError, error: deleteError },
-  ] = useDeleteProductMutation();
+  ] = useDeleteProductMutation(); // Delete product mutation
 
-  // Error Handeling
+  // -------------------------
+  // Error handling hooks
+  // -------------------------
   useError(
     createIsError,
     createError as FetchBaseQueryError | SerializedError | undefined,
@@ -80,79 +85,66 @@ export default function Products() {
     updateError as FetchBaseQueryError | SerializedError | undefined,
     "Product updated failed"
   );
-
   useError(
     deleteIsError,
     deleteError as FetchBaseQueryError | SerializedError | undefined,
     "Product deleted failed"
   );
 
-  // Ensure data is always defined for calculation
-  const safeData = data ?? [];
+  // -------------------------
+  // Data Preparation
+  // -------------------------
+  const safeData = data ?? []; // Ensure data is always an array
 
-  // Redux Filters
+  // Redux filters
   const { searchQuery, categoryFilter, statusFilter } = useSelector(
     (state: RootState) => state.productFilters
   );
 
-  // Temporary state to store input value
-  const [searchInput, setSearchInput] = useState(searchQuery);
+  const [searchInput, setSearchInput] = useState(searchQuery); // Local state for search input
 
-  // Debounced function to dispatch search query
+  // -------------------------
+  // Debounced filter dispatch functions
+  // -------------------------
   const debouncedSearch = useMemo(
-    () =>
-      debounce((value: string) => {
-        dispatch(setSearchQuery(value));
-      }, 800), // 800ms delay
+    () => debounce((value: string) => dispatch(setSearchQuery(value)), 800),
     [dispatch]
   );
 
-  // Debounced dispatch for category filter
   const debouncedCategory = useMemo(
-    () =>
-      debounce((value: string) => {
-        dispatch(setCategoryFilter(value));
-      }, 800), // 800ms delay
+    () => debounce((value: string) => dispatch(setCategoryFilter(value)), 800),
     [dispatch]
   );
 
-  // Debounced dispatch for status filter
   const debouncedStatus = useMemo(
-    () =>
-      debounce((value: string) => {
-        dispatch(setStatusFilter(value));
-      }, 800),
+    () => debounce((value: string) => dispatch(setStatusFilter(value)), 800),
     [dispatch]
   );
 
-  // Update search input state and call debounced dispatch
+  // -------------------------
+  // Filter Handlers
+  // -------------------------
   const handleSearchChange = (value: string) => {
-    setSearchInput(value);
-    debouncedSearch(value);
+    setSearchInput(value); // Update local input
+    debouncedSearch(value); // Dispatch debounced search
   };
 
-  const handleCategoryChange = (value: string) => {
-    debouncedCategory(value);
-  };
+  const handleCategoryChange = (value: string) => debouncedCategory(value);
+  const handleStatusChangeFilter = (value: string) => debouncedStatus(value);
 
-  const handleStatusChangeFilter = (value: string) => {
-    debouncedStatus(value);
-  };
-
-  // Filtered products
+  // -------------------------
+  // Filter and Sort Products
+  // -------------------------
   const filteredProducts = useMemo(() => {
     return [...safeData]
       .filter((product) => {
         const matchesSearch = product.name
           ?.toLowerCase()
           .includes(searchQuery.toLowerCase());
-
         const matchesCategory =
           categoryFilter === "All" || product.category === categoryFilter;
-
         const matchesStatus =
           statusFilter === "All" || product.status === statusFilter;
-
         return matchesSearch && matchesCategory && matchesStatus;
       })
       .sort(
@@ -161,62 +153,62 @@ export default function Products() {
       );
   }, [safeData, searchQuery, categoryFilter, statusFilter]);
 
-  // Pagination total pages should use filteredProducts
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-
-  // Paginated products
+  // -------------------------
+  // Pagination
+  // -------------------------
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage); // Total pages
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    return filteredProducts.slice(start, start + itemsPerPage);
+    return filteredProducts.slice(start, start + itemsPerPage); // Current page products
   }, [filteredProducts, currentPage, itemsPerPage]);
 
-  // Reset page when filter changes
+  // Reset page on filter changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, categoryFilter, statusFilter]);
 
+  // -------------------------
+  // Modal Handlers
+  // -------------------------
   const handleCreate = () => {
     setModalMode("create");
     setSelectedProduct(null);
     setModalOpen(true);
   };
-
   const handleView = (product: Product) => {
     setModalMode("view");
     setSelectedProduct(product);
     setModalOpen(true);
   };
-
   const handleEdit = (product: Product) => {
     setModalMode("edit");
     setSelectedProduct(product);
     setModalOpen(true);
   };
-
   const handleDelete = (product: Product) => {
     setProductToDelete(product);
     setDeleteModalOpen(true);
   };
+  const handleBulkDelete = () => setBulkDeleteOpen(true);
 
-  const handleBulkDelete = () => {
-    setBulkDeleteOpen(true);
-  };
-
+  // -------------------------
+  // Status Change Handler
+  // -------------------------
   const handleStatusChange = async (id: number, status: ProductStatus) => {
-    // mark this row as loading
-    setLoadingIds((prev) => [...prev, id]);
-
+    setLoadingIds((prev) => [...prev, id]); // Mark row as loading
     try {
-      await updateProduct({ id, data: { status } }); // RTK Query mutation
+      await updateProduct({ id, data: { status } }); // Update status via API
       toast("success", "Status updated successfully");
     } catch (err) {
       console.error(err);
     } finally {
-      // remove loading state for this row
-      setLoadingIds((prev) => prev.filter((loadingId) => loadingId !== id));
+      setLoadingIds((prev) => prev.filter((loadingId) => loadingId !== id)); // Remove loading
     }
   };
 
+  // -------------------------
+  // Save (Create / Update) Product
+  // -------------------------
   const handleSave = async (data: ProductCreateInput) => {
     try {
       if (modalMode === "create") {
@@ -226,7 +218,6 @@ export default function Products() {
           img_url: data.img_url || "",
           createdAt: new Date().toISOString(),
         };
-
         await createProduct(payload).unwrap();
         toast("success", "Product created successfully");
       } else if (selectedProduct?.id) {
@@ -235,33 +226,26 @@ export default function Products() {
           description: data.description || "",
           img_url: data.img_url || "",
         };
-
-        await updateProduct({
-          id: selectedProduct.id,
-          data: payload,
-        }).unwrap();
+        await updateProduct({ id: selectedProduct.id, data: payload }).unwrap();
         toast("success", "Product updated successfully");
       }
-
-      setModalOpen(false);
+      setModalOpen(false); // Close modal
     } catch (err) {
       console.error(err);
       toast("error", "Failed to save product");
     }
   };
 
+  // -------------------------
+  // Delete Handlers
+  // -------------------------
   const handleDeleteConfirm = async () => {
     if (!productToDelete?.id) return;
-
     try {
-      // Call RTK Query delete mutation
-      await deleteProduct(productToDelete.id).unwrap();
-
+      await deleteProduct(productToDelete.id).unwrap(); // Delete single product
       toast("success", "Product deleted successfully");
       setDeleteModalOpen(false);
       setProductToDelete(null);
-
-      // ✅ No need for queryClient if you use invalidatesTags in API slice
     } catch (err) {
       console.error(err);
       toast("error", "Failed to delete product");
@@ -270,9 +254,8 @@ export default function Products() {
 
   const handleBulkDeleteConfirm = async () => {
     if (!selectedIds.length) return;
-
     try {
-      await deleteProduct(selectedIds).unwrap();
+      await deleteProduct(selectedIds).unwrap(); // Delete selected products
       toast("success", "Products deleted successfully");
       setBulkDeleteOpen(false);
       setSelectedIds([]);
@@ -282,6 +265,9 @@ export default function Products() {
     }
   };
 
+  // -------------------------
+  // Cleanup debounced functions on unmount
+  // -------------------------
   useEffect(() => {
     return () => {
       debouncedSearch.cancel();
@@ -290,6 +276,9 @@ export default function Products() {
     };
   }, [debouncedSearch, debouncedCategory, debouncedStatus]);
 
+  // -------------------------
+  // Render UI
+  // -------------------------
   return (
     <>
       <div className="space-y-6">
@@ -305,8 +294,8 @@ export default function Products() {
           </div>
           <Button
             onClick={handleCreate}
-            className="bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600
-             hover:to-violet-700 shadow-lg shadow-indigo-500/30 cursor-pointer"
+            className="bg-gradient-to-r from-indigo-500 to-violet-600
+           hover:from-indigo-600 hover:to-violet-700 shadow-lg shadow-indigo-500/30 cursor-pointer"
           >
             <Plus className="w-5 h-5 mr-2" />
             Add Product
@@ -323,7 +312,7 @@ export default function Products() {
           setStatusFilter={handleStatusChangeFilter}
         />
 
-        {/* Table */}
+        {/* Product Table */}
         <ProductTable
           products={paginatedProducts}
           selectedIds={selectedIds}
@@ -368,18 +357,18 @@ export default function Products() {
           isLoading={createLoading || updateLoading}
         />
 
-        {/* Delete Confirm Modal */}
+        {/* Single Delete Modal */}
         <DeleteConfirmModal
           isOpen={deleteModalOpen}
           onClose={() => {
             setDeleteModalOpen(false);
             setProductToDelete(null);
           }}
-          onConfirm={handleDeleteConfirm} // async RTK Query function
-          isLoading={deleteLoading} // loading state from RTK Query
+          onConfirm={handleDeleteConfirm}
+          isLoading={deleteLoading}
         />
 
-        {/* Bulk Delete Confirm Modal */}
+        {/* Bulk Delete Modal */}
         <DeleteConfirmModal
           isOpen={bulkDeleteOpen}
           onClose={() => setBulkDeleteOpen(false)}

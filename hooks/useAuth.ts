@@ -2,13 +2,13 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { AppDispatch, RootState } from "@/app/store";
 import {
   finishAuthCheck,
   login as loginAction,
   logout as logoutAction,
-} from "@/app/store/slices/authSlice";
+} from "@/store/slices/authSlice";
 import { useEffect } from "react";
+import { AppDispatch, RootState } from "@/store";
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,15 +17,16 @@ export const useAuth = () => {
     (state: RootState) => state.auth
   );
 
-  // 🔹 Simulate auth check (important for skeleton)
+  // Simulate auth check for skeleton loading
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(finishAuthCheck());
-    }, 500); // short delay for smooth UX
+    }, 500); // short delay for smoother UX
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // cleanup on unmount
   }, [dispatch]);
 
+  // Login function with hardcoded credentials
   const login = (email: string, password: string) => {
     if (email === "admin@gmail.com" && password === "12345678") {
       dispatch(loginAction({ email, token: "product-pro-jwt-token" }));
@@ -35,6 +36,7 @@ export const useAuth = () => {
     return false;
   };
 
+  // Logout function
   const logout = () => {
     dispatch(logoutAction());
     router.push("/");

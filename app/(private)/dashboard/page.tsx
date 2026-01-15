@@ -6,6 +6,7 @@ import DashboardSkeleton from "@/components/skeletons/DashboardSkeleton";
 import { DollarSign, Package, ShoppingCart, TrendingUp } from "lucide-react";
 import dynamic from "next/dynamic";
 
+// Dynamically import SalesChart and CategoryChart with no SSR (client-side only)
 const SalesChart = dynamic(() => import("@/components/dashboard/SalesChart"), {
   ssr: false,
 });
@@ -15,22 +16,26 @@ const CategoryChart = dynamic(
 );
 
 export default function Dashboard() {
-  const isLoading = false;
+  const isLoading = false; // Loading state placeholder (can be connected to API)
 
+  // Sample dashboard stats
   const stats = {
-    totalProducts: 1248,
-    totalValue: 8500.5,
-    activeProducts: 1102,
-    lowStock: 14,
+    totalProducts: 1248, // Total number of products
+    totalValue: 8500.5, // Total inventory value
+    activeProducts: 1102, // Number of active products
+    lowStock: 14, // Number of products with low stock
   };
 
+  // Show skeleton loader while data is loading
   if (isLoading) {
     return <DashboardSkeleton />;
   }
 
   return (
     <div className="space-y-8">
-      {/* Page Header */}
+      {/* -------------------------
+          Page Header
+         ------------------------- */}
       <div>
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
           Dashboard
@@ -40,8 +45,11 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Stats Cards */}
+      {/* -------------------------
+          Stats Cards Row
+         ------------------------- */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Total Products Card */}
         <StatsCard
           title="Total Products"
           value={stats.totalProducts}
@@ -51,6 +59,7 @@ export default function Dashboard() {
           gradient="bg-gradient-to-br from-indigo-500 to-indigo-600"
           delay={0}
         />
+        {/* Inventory Value Card */}
         <StatsCard
           title="Inventory Value"
           value={`$${stats.totalValue.toLocaleString()}`}
@@ -60,6 +69,7 @@ export default function Dashboard() {
           gradient="bg-gradient-to-br from-emerald-500 to-emerald-600"
           delay={0.1}
         />
+        {/* Active Products Card */}
         <StatsCard
           title="Active Products"
           value={stats.activeProducts}
@@ -69,6 +79,7 @@ export default function Dashboard() {
           gradient="bg-gradient-to-br from-violet-500 to-violet-600"
           delay={0.2}
         />
+        {/* Low Stock Items Card */}
         <StatsCard
           title="Low Stock Items"
           value={stats.lowStock}
@@ -80,15 +91,21 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Charts Row */}
+      {/* -------------------------
+          Charts Row
+         ------------------------- */}
       <div className="grid lg:grid-cols-3 gap-6">
+        {/* Sales chart spanning 2 columns */}
         <div className="lg:col-span-2">
           <SalesChart />
         </div>
+        {/* Product categories chart */}
         <CategoryChart />
       </div>
 
-      {/* Recent Products */}
+      {/* -------------------------
+          Recent Products Section
+         ------------------------- */}
       <RecentProducts />
     </div>
   );

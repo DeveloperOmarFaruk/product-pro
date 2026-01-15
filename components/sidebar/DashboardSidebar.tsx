@@ -42,23 +42,24 @@ export default function DashboardSidebar({
   isCollapsed,
   setIsCollapsed,
 }: DashboardSidebarProps) {
-  const pathname = usePathname();
+  const pathname = usePathname(); // Get current route for active menu highlighting
 
   return (
     <Motion.aside
-      initial={false}
-      animate={{ width: isCollapsed ? 80 : 280 }}
+      initial={false} // Do not animate on first render
+      animate={{ width: isCollapsed ? 80 : 280 }} // Animate width when collapsed/expanded
       className={cn(
         "fixed left-0 top-0 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-40 flex flex-col",
-        "transition-shadow duration-300"
+        "transition-shadow duration-300" // Smooth shadow transition
       )}
     >
-      {/* Logo */}
+      {/* ---------- Logo Section ---------- */}
       <div className="h-20 flex items-center justify-between px-6 border-b border-slate-100 dark:border-slate-800">
         <Link href="/dashboard" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 flex-shrink-0">
             <ShoppingBag className="w-5 h-5 text-white" />
           </div>
+          {/* Show text only when sidebar is expanded */}
           {!isCollapsed && (
             <Motion.span
               initial={{ opacity: 0 }}
@@ -72,11 +73,11 @@ export default function DashboardSidebar({
         </Link>
       </div>
 
-      {/* Navigation */}
+      {/* ---------- Navigation Menu ---------- */}
       <nav className="flex-1 px-4 py-6 overflow-y-auto">
         <ul className="space-y-2">
           {menuItems.map((item) => {
-            const isActive = pathname === item.path;
+            const isActive = pathname === item.path; // Highlight active menu item
 
             return (
               <li key={item.name}>
@@ -89,12 +90,14 @@ export default function DashboardSidebar({
                       : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
                   )}
                 >
+                  {/* Menu icon */}
                   <item.icon
                     className={cn(
                       "w-5 h-5 flex-shrink-0",
                       isActive && "text-white"
                     )}
                   />
+                  {/* Menu text hidden when collapsed */}
                   {!isCollapsed && (
                     <Motion.span
                       initial={{ opacity: 0 }}
@@ -112,13 +115,14 @@ export default function DashboardSidebar({
         </ul>
       </nav>
 
-      {/* Collapse Button */}
+      {/* ---------- Collapse / Expand Button ---------- */}
       <div className="p-4 border-t border-slate-100 dark:border-slate-800">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="w-full flex items-center cursor-pointer justify-center gap-2 px-4 py-3 rounded-xl
            text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
         >
+          {/* Show only icon when collapsed, icon + text when expanded */}
           {isCollapsed ? (
             <ChevronRight className="w-5 h-5" />
           ) : (

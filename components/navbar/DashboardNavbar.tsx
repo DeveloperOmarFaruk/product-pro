@@ -38,21 +38,33 @@ export default function DashboardNavbar({
   setIsDarkMode,
   onMenuClick,
 }: DashboardNavbarProps) {
+  /* -------------------- State -------------------- */
+
+  // Mock notifications (can be replaced with API data later)
   const [notifications] = useState([
     { id: 1, title: "New order received", time: "5 min ago" },
     { id: 2, title: "Stock low on 3 items", time: "1 hour ago" },
     { id: 3, title: "Monthly report ready", time: "2 hours ago" },
   ]);
-  const { logout } = useAuth();
+
+  /* -------------------- Hooks -------------------- */
+
+  const { logout } = useAuth(); // auth hook
+
+  /* -------------------- Handlers -------------------- */
+
+  // Logout user and show toast feedback
   const handleLogout = () => {
     logout();
     toast("success", "Logout Successful");
   };
 
+  // Placeholder handler for unavailable features
   const handleComingSoon = () => {
     toast("info", "This feature will be available soon.");
   };
 
+  // Generate avatar initials from username
   const getInitials = (name?: string) => {
     if (!name) return "U";
     return name
@@ -65,18 +77,24 @@ export default function DashboardNavbar({
 
   return (
     <>
-      <header className="h-20 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 sticky top-0 z-30">
-        {/* Left Section */}
+      {/* ==================== Navbar ==================== */}
+      <header
+        className="h-20 bg-white dark:bg-slate-900 border-b border-slate-200
+       dark:border-slate-800 flex items-center justify-between px-6 sticky top-0 z-30"
+      >
+        {/* ---------- Left Section ---------- */}
         <div className="flex items-center gap-4">
+          {/* Mobile sidebar toggle */}
           <button
             onClick={onMenuClick}
-            className="lg:hidden p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="lg:hidden p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100
+             dark:hover:bg-slate-800"
           >
             <Menu className="w-6 h-6" />
           </button>
         </div>
 
-        {/* Right Section */}
+        {/* ---------- Right Section ---------- */}
         <div className="flex items-center gap-3">
           {/* Theme Toggle */}
           <Button
@@ -85,6 +103,7 @@ export default function DashboardNavbar({
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="w-11 h-11 rounded-xl cursor-pointer"
           >
+            {/* Animated icon swap */}
             <AnimatePresence mode="wait">
               {isDarkMode ? (
                 <Motion.div
@@ -108,7 +127,7 @@ export default function DashboardNavbar({
             </AnimatePresence>
           </Button>
 
-          {/* Notifications */}
+          {/* Notifications Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -116,19 +135,26 @@ export default function DashboardNavbar({
                 size="icon"
                 className="w-11 h-11 rounded-xl relative cursor-pointer"
               >
+                {/* Bell icon */}
                 <Bell className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+
+                {/* Unread indicator */}
                 <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full" />
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent
               align="end"
               className="w-80 p-2 bg-white dark:bg-zinc-950 border border-zinc-300"
             >
+              {/* Dropdown header */}
               <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
                 <h3 className="font-semibold text-slate-900 dark:text-white">
                   Notifications
                 </h3>
               </div>
+
+              {/* Notification items */}
               {notifications.map((notification) => (
                 <DropdownMenuItem
                   key={notification.id}
@@ -148,32 +174,39 @@ export default function DashboardNavbar({
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* User Menu */}
+          {/* User Account Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
                 className="flex items-center gap-3 h-11 px-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
+                {/* User avatar */}
                 <Avatar className="w-9 h-9">
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-violet-600 text-white text-sm">
                     {getInitials("Admin")}
                   </AvatarFallback>
                 </Avatar>
+
+                {/* User info (hidden on small screens) */}
                 <div className="hidden md:block text-left">
                   <p className="text-sm font-medium text-slate-900 dark:text-white">
-                    {"Admin"}
+                    Admin
                   </p>
-                  <p className="text-xs text-slate-500">{"Admin"}</p>
+                  <p className="text-xs text-slate-500">Admin</p>
                 </div>
+
+                {/* Dropdown arrow */}
                 <ChevronDown className="w-4 h-4 text-slate-400 hidden md:block" />
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent
               align="end"
               className="w-56 p-2 bg-white dark:bg-zinc-950 border border-zinc-300"
             >
+              {/* Profile */}
               <DropdownMenuItem
                 className="p-3 cursor-pointer"
                 onClick={handleComingSoon}
@@ -181,6 +214,8 @@ export default function DashboardNavbar({
                 <User className="w-4 h-4 mr-3" />
                 Profile
               </DropdownMenuItem>
+
+              {/* Settings */}
               <DropdownMenuItem
                 className="p-3 cursor-pointer"
                 onClick={handleComingSoon}
@@ -188,9 +223,13 @@ export default function DashboardNavbar({
                 <Settings className="w-4 h-4 mr-3" />
                 Settings
               </DropdownMenuItem>
+
               <DropdownMenuSeparator />
+
+              {/* Logout */}
               <DropdownMenuItem
-                className="p-3 cursor-pointer text-rose-600 dark:text-rose-400 focus:text-rose-600 focus:bg-rose-50 dark:focus:bg-rose-950/20"
+                className="p-3 cursor-pointer text-rose-600 dark:text-rose-400
+                focus:text-rose-600 focus:bg-rose-50 dark:focus:bg-rose-950/20"
                 onClick={handleLogout}
               >
                 <LogOut className="w-4 h-4 mr-3 text-rose-600 dark:text-rose-400" />

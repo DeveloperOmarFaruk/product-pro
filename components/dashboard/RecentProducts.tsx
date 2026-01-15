@@ -7,14 +7,18 @@ import { Badge } from "../ui/badge";
 
 export default function RecentProducts() {
   const recentProducts = products.slice(0, 5);
+  // Take the first 5 products from the products array (most recent)
 
   return (
     <Motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20 }} // Fade in + slide up animation
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
       className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800"
     >
+      {/* -------------------------
+          Header: Title + View All button
+         ------------------------- */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
@@ -24,6 +28,8 @@ export default function RecentProducts() {
             Latest additions
           </p>
         </div>
+
+        {/* Link to full products page */}
         <Link href="/products">
           <Button
             variant="ghost"
@@ -31,21 +37,29 @@ export default function RecentProducts() {
             className="text-indigo-600 dark:text-indigo-400 cursor-pointer"
           >
             View All
-            <ArrowRight className="w-4 h-4 ml-1" />
+            <ArrowRight className="w-4 h-4 ml-1" /> {/* Arrow icon */}
           </Button>
         </Link>
       </div>
 
+      {/* -------------------------
+          Recent Products List
+         ------------------------- */}
       <div className="space-y-4">
         {recentProducts.map((product, index) => (
           <Motion.div
             key={product.id}
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -20 }} // Slide in from left + fade
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 * index }}
-            className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            transition={{ delay: 0.1 * index }} // Stagger animation
+            className="flex items-center gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50
+             hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-indigo-900/50 dark:to-violet-900/50 flex items-center justify-center">
+            {/* Product image or default icon */}
+            <div
+              className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-100 to-violet-100
+             dark:from-indigo-900/50 dark:to-violet-900/50 flex items-center justify-center"
+            >
               {product.image_url ? (
                 <img
                   src={product.image_url}
@@ -56,6 +70,8 @@ export default function RecentProducts() {
                 <Package className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
               )}
             </div>
+
+            {/* Product name + category */}
             <div className="flex-1 min-w-0">
               <h4 className="font-medium text-slate-900 dark:text-white truncate">
                 {product.name}
@@ -64,17 +80,22 @@ export default function RecentProducts() {
                 {product.category}
               </p>
             </div>
+
+            {/* Price + Status badge */}
             <div className="text-right">
               <p className="font-semibold text-slate-900 dark:text-white">
-                ${product.price?.toFixed(2)}
+                ${product.price?.toFixed(2)} {/* Format price to 2 decimals */}
               </p>
               <Badge className={cn("mt-1", statusColors[product.status])}>
-                {product.status}
+                {product.status} {/* Status badge with dynamic color */}
               </Badge>
             </div>
           </Motion.div>
         ))}
 
+        {/* -------------------------
+            Fallback when no recent products
+           ------------------------- */}
         {recentProducts.length === 0 && (
           <div className="text-center py-8">
             <Package className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
@@ -98,7 +119,7 @@ export interface Product {
   category: string;
   price: number;
   status: ProductStatus;
-  image_url?: string; // Optional as per your code's check
+  image_url?: string;
   createdAt: string;
 }
 

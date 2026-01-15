@@ -22,36 +22,44 @@ export default function StatsCard({
   delay = 0,
 }: StatsCardProps) {
   return (
+    // Motion.div for fade-in + slide-up animation
     <Motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
+      initial={{ opacity: 0, y: 20 }} // start invisible and slightly down
+      animate={{ opacity: 1, y: 0 }} // animate to visible & original position
+      transition={{ delay }} // animation delay customizable via props
       className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 group hover:shadow-lg transition-shadow"
     >
-      {/* Background Gradient */}
+      {/* Background gradient circle */}
       <div
         className={cn(
           "absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity",
-          gradient
+          gradient // gradient class passed as prop
         )}
       />
 
       <div className="relative flex items-start justify-between">
         <div>
+          {/* Card title */}
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">
             {title}
           </p>
+
+          {/* Card main value */}
           <h3 className="text-3xl font-bold text-slate-900 dark:text-white">
             {value}
           </h3>
 
+          {/* Change indicator (optional) */}
           {change && (
             <div className="flex items-center gap-1 mt-2">
+              {/* Trend icon: up if positive, down if negative */}
               {changeType === "positive" ? (
                 <TrendingUp className="w-4 h-4 text-emerald-500" />
               ) : (
                 <TrendingDown className="w-4 h-4 text-rose-500" />
               )}
+
+              {/* Change value with color */}
               <span
                 className={cn(
                   "text-sm font-medium",
@@ -62,18 +70,22 @@ export default function StatsCard({
               >
                 {change}
               </span>
+
+              {/* Static text for context */}
               <span className="text-sm text-slate-400">last month</span>
             </div>
           )}
         </div>
 
+        {/* Icon on the right with gradient background */}
         <div
           className={cn(
             "w-12 h-12 rounded-xl flex items-center justify-center",
-            gradient
+            gradient // same gradient as background circle
           )}
         >
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-6 h-6 text-white" />{" "}
+          {/* Icon component passed via prop */}
         </div>
       </div>
     </Motion.div>

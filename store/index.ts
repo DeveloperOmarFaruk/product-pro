@@ -20,23 +20,27 @@ const persistConfig = {
   storage,
 };
 
+// Persist the auth slice using redux-persist
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
-    auth: persistedAuthReducer,
-    [productsApi.reducerPath]: productsApi.reducer,
-    productFilters: productFiltersReducer,
+    auth: persistedAuthReducer, // Auth state, persisted in localStorage
+    [productsApi.reducerPath]: productsApi.reducer, // RTK Query slice for products
+    productFilters: productFiltersReducer, // Filters state slice for products
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
+        // Ignore redux-persist actions to prevent warnings about non-serializable values
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(productsApi.middleware),
+    }).concat(productsApi.middleware), // Add RTK Query middleware for caching & invalidation
 });
 
+// Create the persistor for redux-persist
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+// Type helpers for TypeScript
+export type RootState = ReturnType<typeof store.getState>; // Root state type
+export type AppDispatch = typeof store.dispatch; // Dispatch type

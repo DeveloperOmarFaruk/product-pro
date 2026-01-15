@@ -27,7 +27,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
   const isNotFoundRoute = pathname === "/not-found";
 
   /* ---------------------------------------------
-     ✅ Lazy state initialization (NO effects)
+     Lazy state initialization (NO effects)
   --------------------------------------------- */
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
@@ -47,7 +47,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
     if (isNotFoundRoute) return;
 
     if (!isAuthLoading && !isAuthenticated) {
-      router.replace("/login");
+      router.replace("/");
     }
     if (isAuthenticated) {
       const timer = setTimeout(() => setShowSkeleton(false), 1200);

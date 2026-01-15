@@ -12,15 +12,37 @@ import React from "react";
 export default function HomePage() {
   return (
     <>
+      {/* -------------------------
+          Navigation Bar at the top
+         ------------------------- */}
       <LandingNavbar />
+
+      {/* -------------------------
+          Main content of the page
+         ------------------------- */}
       <main>
+        {/* Hero / Banner Section */}
         <HeroSection />
+
+        {/* Key Features Section */}
         <FeaturesSection />
+
+        {/* Products / Offerings Section */}
         <ProductsSection />
+
+        {/* Customer Testimonials Section */}
         <TestimonialsSection />
+
+        {/* Pricing / Plans Section */}
         <PricingSection />
+
+        {/* About / Company Info Section */}
         <AboutSection />
       </main>
+
+      {/* -------------------------
+          Footer at the bottom
+         ------------------------- */}
       <Footer />
     </>
   );

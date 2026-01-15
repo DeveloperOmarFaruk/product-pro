@@ -7,19 +7,23 @@ export default function PricingSection() {
   return (
     <section
       id="pricing"
-      className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden"
+      className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden" // Section padding, background & overflow
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
+          {/* Small Badge */}
           <Motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }} // fade in from below
+            whileInView={{ opacity: 1, y: 0 }} // animate when in view
             viewport={{ once: true }}
-            className="inline-block px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-sm font-semibold mb-4"
+            className="inline-block px-4 py-2 rounded-full bg-amber-50 dark:bg-amber-950/50 text-amber-600
+             dark:text-amber-400 text-sm font-semibold mb-4"
           >
             Pricing
           </Motion.span>
+
+          {/* Heading */}
           <Motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,6 +33,8 @@ export default function PricingSection() {
           >
             Simple, Transparent Pricing
           </Motion.h2>
+
+          {/* Description */}
           <Motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -41,30 +47,31 @@ export default function PricingSection() {
           </Motion.p>
         </div>
 
-        {/* Pricing Cards */}
+        {/* Pricing Cards Grid */}
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
           {plans.map((plan: PricingPlan, index: number) => (
             <Motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 30 }} // fade + slide in
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }} // stagger each card
               className={`relative p-8 rounded-3xl ${
                 plan.popular
-                  ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-2xl shadow-indigo-500/30 scale-105"
+                  ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-2xl shadow-indigo-500/30 scale-105" // highlight popular plan
                   : "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
               }`}
             >
+              {/* Popular Badge */}
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-amber-400 text-amber-900 text-sm font-semibold shadow-lg">
-                    <Sparkles className="w-4 h-4" />
-                    Most Popular
+                    <Sparkles className="w-4 h-4" /> Most Popular
                   </span>
                 </div>
               )}
 
+              {/* Plan Name & Description */}
               <div className="mb-8">
                 <h3
                   className={`text-xl font-semibold mb-2 ${
@@ -86,6 +93,7 @@ export default function PricingSection() {
                 </p>
               </div>
 
+              {/* Pricing */}
               <div className="mb-8">
                 <span
                   className={`text-5xl font-bold ${
@@ -107,9 +115,11 @@ export default function PricingSection() {
                 </span>
               </div>
 
+              {/* Features List */}
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature: string) => (
                   <li key={feature} className="flex items-center gap-3">
+                    {/* Check icon box */}
                     <div
                       className={`w-5 h-5 rounded-full flex items-center justify-center ${
                         plan.popular
@@ -125,6 +135,7 @@ export default function PricingSection() {
                         }`}
                       />
                     </div>
+                    {/* Feature text */}
                     <span
                       className={
                         plan.popular
@@ -138,6 +149,7 @@ export default function PricingSection() {
                 ))}
               </ul>
 
+              {/* CTA Button */}
               <Link href="/AdminLogin">
                 <Button
                   className={`w-full h-12 ${

@@ -5,35 +5,40 @@ export default function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden"
+      className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden" // Section wrapper
     >
-      {/* Background */}
+      {/* Decorative background gradient */}
       <div
         className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-transparent
-       to-violet-50/50 dark:from-indigo-950/30 dark:to-violet-950/30"
+     to-violet-50/50 dark:from-indigo-950/30 dark:to-violet-950/30"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
+          {/* Badge */}
           <Motion.span
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }} // fade + slide animation
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="inline-block px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-950/50
-             text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4"
+         text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4"
           >
             Testimonials
           </Motion.span>
+
+          {/* Heading */}
           <Motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.1 }} // staggered animation
             className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-6"
           >
             Loved by Businesses
           </Motion.h2>
+
+          {/* Subtitle */}
           <Motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -51,14 +56,17 @@ export default function TestimonialsSection() {
           {testimonials.map((testimonial: Testimonial, index: number) => (
             <Motion.div
               key={testimonial.author}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 30 }} // card entrance animation
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }} // stagger effect
               className="relative p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border
-               border-slate-100 dark:border-slate-700/50"
+           border-slate-100 dark:border-slate-700/50"
             >
+              {/* Quote Icon */}
               <Quote className="w-10 h-10 text-indigo-200 dark:text-indigo-800 mb-6" />
+
+              {/* Star Rating */}
               <div className="flex gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star
@@ -67,15 +75,22 @@ export default function TestimonialsSection() {
                   />
                 ))}
               </div>
+
+              {/* Testimonial Content */}
               <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-8">
                 {`"${testimonial?.content}"`}
               </p>
+
+              {/* Author Info */}
               <div className="flex items-center gap-4">
+                {/* Avatar */}
                 <img
                   src={testimonial.avatar}
                   alt={testimonial.author}
                   className="w-12 h-12 rounded-full object-cover"
                 />
+
+                {/* Name & Role */}
                 <div>
                   <div className="font-semibold text-slate-900 dark:text-white">
                     {testimonial.author}

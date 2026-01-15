@@ -6,30 +6,35 @@ export default function ProductsSection() {
   return (
     <section
       id="products"
-      className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden"
+      className="py-32 bg-slate-50 dark:bg-slate-950 relative overflow-hidden" // Section wrapper with spacing & background
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
           <div>
+            {/* Badge */}
             <Motion.span
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 20 }} // fade in + slide up
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="inline-block px-4 py-2 rounded-full bg-violet-50 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400 text-sm font-semibold mb-4"
             >
               Products
             </Motion.span>
+
+            {/* Section Title */}
             <Motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
+              transition={{ delay: 0.1 }} // small animation delay
               className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white"
             >
               Featured Products
             </Motion.h2>
           </div>
+
+          {/* View All Button */}
           <Motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -39,6 +44,7 @@ export default function ProductsSection() {
           >
             <Button variant="outline" className="group cursor-pointer">
               View All Products
+              {/* Arrow icon with hover animation */}
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Motion.div>
@@ -49,32 +55,45 @@ export default function ProductsSection() {
           {products.map((product: Product, index: number) => (
             <Motion.div
               key={product.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 30 }} // card entrance animation
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }} // stagger effect
               className="group"
             >
+              {/* Product Image Card */}
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-slate-800 mb-4">
+                {/* Product Image */}
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
+
+                {/* Image Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                {/* Hover CTA */}
                 <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button className="w-full bg-white/90 text-slate-900 hover:bg-white">
                     Quick View
                   </Button>
                 </div>
               </div>
+
+              {/* Product Details */}
               <div className="space-y-2">
+                {/* Category */}
                 <span className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
                   {product.category}
                 </span>
+
+                {/* Product Name */}
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                   {product.name}
                 </h3>
+
+                {/* Price & Rating */}
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold text-slate-900 dark:text-white">
                     ${product.price}

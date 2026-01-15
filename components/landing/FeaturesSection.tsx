@@ -13,26 +13,29 @@ export default function FeaturesSection() {
   return (
     <section
       id="features"
-      className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden"
+      className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden" // Section spacing, background & overflow
     >
-      {/* Background Elements */}
+      {/* Background Gradient Circle */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br
-       from-indigo-100/50 to-violet-100/50 dark:from-indigo-900/20 dark:to-violet-900/20 rounded-full blur-3xl"
+   from-indigo-100/50 to-violet-100/50 dark:from-indigo-900/20 dark:to-violet-900/20 rounded-full blur-3xl"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
+          {/* Small label */}
           <Motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }} // fade in from below
+            whileInView={{ opacity: 1, y: 0 }} // animate when in view
+            viewport={{ once: true }} // animate only once
             className="inline-block px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-950/50
-             text-indigo-600 dark:text-indigo-400 text-sm font-semibold mb-4"
+         text-indigo-600 dark:text-indigo-400 text-sm font-semibold mb-4"
           >
             Features
           </Motion.span>
+
+          {/* Main heading */}
           <Motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -42,6 +45,8 @@ export default function FeaturesSection() {
           >
             Everything You Need
           </Motion.h2>
+
+          {/* Description paragraph */}
           <Motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -59,23 +64,29 @@ export default function FeaturesSection() {
           {features.map((feature: Feature, index: number) => (
             <Motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }} // start slightly lower and invisible
+              whileInView={{ opacity: 1, y: 0 }} // animate into view
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }} // stagger animation for each feature
               className="group relative p-8 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border
-               border-slate-100 dark:border-slate-700/50 hover:border-indigo-200 dark:hover:border-indigo-800 
-               transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10"
+           border-slate-100 dark:border-slate-700/50 hover:border-indigo-200 dark:hover:border-indigo-800 
+           transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10"
             >
+              {/* Icon box with gradient background */}
               <div
                 className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.color} 
-                flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}
+            flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}
               >
-                <feature.icon className="w-7 h-7 text-white" />
+                <feature.icon className="w-7 h-7 text-white" />{" "}
+                {/* Feature icon */}
               </div>
+
+              {/* Feature title */}
               <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">
                 {feature.title}
               </h3>
+
+              {/* Feature description */}
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                 {feature.description}
               </p>
