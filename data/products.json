@@ -1,0 +1,193 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Headphones",
+    "category": "Electronics",
+    "status": "active",
+    "price": 99,
+    "stock": 50,
+    "img_url": "https://images.pexels.com/photos/3394653/pexels-photo-3394653.jpeg",
+    "description": "High-quality wireless headphones with noise cancellation",
+    "createdAt": "2026-01-15"
+  },
+{
+  "id": 2,
+  "name": "Smartphone",
+  "category": "Electronics",
+  "status": "active",
+  "price": 699,
+  "stock": 30,
+  "img_url": "https://images.pexels.com/photos/6078123/pexels-photo-6078123.jpeg",
+  "description": "Latest model smartphone with high-resolution camera",
+  "createdAt": "2026-01-15"
+},
+  {
+    "id": 3,
+    "name": "LED TV 50 inch",
+    "category": "Electronics",
+    "status": "active",
+    "price": 450,
+    "stock": 20,
+    "img_url": "https://images.pexels.com/photos/1092671/pexels-photo-1092671.jpeg",
+    "description": "50-inch LED TV with 4K resolution and smart features",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 4,
+    "name": "Casual Shirt",
+    "category": "Clothing",
+    "status": "active",
+    "price": 25,
+    "stock": 50,
+    "img_url": "https://images.pexels.com/photos/428338/pexels-photo-428338.jpeg",
+    "description": "Comfortable casual shirt perfect for everyday wear",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 5,
+    "name": "Formal Shirt",
+    "category": "Clothing",
+    "status": "active",
+    "price": 40,
+    "stock": 30,
+    "img_url": "https://images.pexels.com/photos/428338/pexels-photo-428338.jpeg",
+    "description": "Elegant formal shirt for office and special occasions",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 6,
+    "name": "Coffee Maker",
+    "category": "Home & Garden",
+    "status": "active",
+    "price": 60,
+    "stock": 25,
+    "img_url": "https://images.pexels.com/photos/414645/pexels-photo-414645.jpeg",
+    "description": "Automatic coffee maker for perfect morning coffee",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 7,
+    "name": "Garden Tools Set",
+    "category": "Home & Garden",
+    "status": "active",
+    "price": 35,
+    "stock": 40,
+    "img_url": "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
+    "description": "Complete garden tool set for planting and maintenance",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 8,
+    "name": "Yoga Mat",
+    "category": "Sports",
+    "status": "active",
+    "price": 20,
+    "stock": 60,
+    "img_url": "https://images.pexels.com/photos/3757955/pexels-photo-3757955.jpeg",
+    "description": "Non-slip yoga mat for fitness and meditation",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 9,
+    "name": "Football",
+    "category": "Sports",
+    "status": "active",
+    "price": 25,
+    "stock": 50,
+    "img_url": "https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg",
+    "description": "Durable football for training and matches",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 10,
+    "name": "Lipstick Set",
+    "category": "Beauty",
+    "status": "active",
+    "price": 15,
+    "stock": 80,
+    "img_url": "https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg",
+    "description": "Set of vibrant lipsticks for daily wear",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 11,
+    "name": "Perfume",
+    "category": "Beauty",
+    "status": "active",
+    "price": 45,
+    "stock": 35,
+    "img_url": "https://images.pexels.com/photos/3815593/pexels-photo-3815593.jpeg",
+    "description": "Long-lasting fragrance for special occasions",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 12,
+    "name": "Mystery Novel",
+    "category": "Books",
+    "status": "active",
+    "price": 12,
+    "stock": 100,
+    "img_url": "https://images.pexels.com/photos/694740/pexels-photo-694740.jpeg",
+    "description": "Gripping mystery novel for readers of all ages",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 13,
+    "name": "Children Storybook",
+    "category": "Books",
+    "status": "active",
+    "price": 10,
+    "stock": 120,
+    "img_url": "https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg",
+    "description": "Illustrated storybook for kids",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 14,
+    "name": "Action Figure",
+    "category": "Toys",
+    "status": "active",
+    "price": 18,
+    "stock": 70,
+    "img_url": "https://images.pexels.com/photos/1102523/pexels-photo-1102523.jpeg",
+    "description": "Collectible action figure toy for kids",
+    "createdAt": "2026-01-15"
+  },
+  {
+    "id": 15,
+    "name": "Puzzle Game",
+    "category": "Toys",
+    "status": "active",
+    "price": 22,
+    "stock": 60,
+    "img_url": "https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg",
+    "description": "Challenging puzzle game for all ages",
+    "createdAt": "2026-01-15"
+  },
+{
+  "id": 16,
+  "name": "Organic Chocolate",
+  "category": "Food",
+  "status": "active",
+  "price": 8,
+  "stock": 150,
+  "img_url": "https://images.pexels.com/photos/302901/pexels-photo-302901.jpeg",
+  "description": "Delicious organic chocolate bars",
+  "createdAt": "2026-01-15"
+}
+
+,
+  {
+    "id": 17,
+    "name": "Gourmet Cookies",
+    "category": "Food",
+    "status": "active",
+    "price": 6,
+    "stock": 200,
+    "img_url": "https://images.pexels.com/photos/230325/pexels-photo-230325.jpeg",
+    "description": "Tasty gourmet cookies in assorted flavors",
+    "createdAt": "2026-01-15"
+  }
+]
+
+
