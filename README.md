@@ -7,12 +7,7 @@
 ![image](https://github.com/user-attachments/assets/404fdbaf-65b2-4d23-9694-bb0eaf549a0c)
 ![image](https://github.com/user-attachments/assets/4d8b211d-d7b7-441a-8b72-2faf6bb97490)
 
-#
-## Folder Structure
-#
-![image](https://github.com/user-attachments/assets/29b95817-b496-46b3-9717-d7d17cde74a1)
-![image](https://github.com/user-attachments/assets/0b39c086-2421-4209-a1b4-2cf59ac4bc4e)
-#
+
 ### `Project Run Command.`
 #### if npm use 
  1. npm install
@@ -21,6 +16,27 @@
 #### if yarn use
  1. yarn install
  2. yarn run dev
+
+#
+## Folder Structure
+#
+![image](https://github.com/user-attachments/assets/29b95817-b496-46b3-9717-d7d17cde74a1)
+![image](https://github.com/user-attachments/assets/0b39c086-2421-4209-a1b4-2cf59ac4bc4e)
+#
+## Folder-wise Feature Mapping
+* Route protection, login simulation, state tracking
+* Charts, stats cards, recent products
+* Search, filter, pagination, modals, bulk actions
+* SSR with client-side revalidation, loading/error handling
+* Query params, page refresh state restore
+* Avoid re-renders, skeleton loaders instead of spinners
+* No usage of any typescript
+* Detect system preference
+* Keyboard navigation, ARIA attributes
+* Use debounced input to delay filtering and reduce unnecessary updates.
+* Apply memoization to cache filtered data and prevent extra re-renders.
+* Display skeleton loaders while data is loading for better UX.
+
     
 #
 ### `Technology Use.`
